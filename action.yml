@@ -16,6 +16,9 @@ inputs:
   test2_password:
     description: "The target password for authentication (basicauth) with Swagger."
     required: true
+  GITHUB_TOKEN:
+    description: "The GITHUB_TOKEN, for observability as it is always implicitly available to the action."
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

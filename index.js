@@ -7,10 +7,14 @@ async function run() {
     const newman = require('newman');
     const jsonlint = require('jsonlint');
     const jsonDiff = require('json-diff');
+    const fs = require('fs');
 
     const resultSet = [];
     const theCollection = './' + `${process.env.INPUT_COLLECTION}`;
 
+    fs.readdirSync('./').forEach(file => {
+     console.log(file);
+    });
     // call newman.run to pass `options` object and wait for callback
     newman.run({
         collection: require(theCollection),
