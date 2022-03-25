@@ -1,0 +1,21 @@
+name: 'API-Consistency'
+description: 'Run API Consistency checks'
+inputs:
+  collection:
+    description: "The Postman Collection JSON to run"
+    required: true
+  test1_url:
+    description: "The baseline URL, used as reference definition."
+    required: true
+  test2_url:
+    description: "The target API URL which will be compared with the baseline."
+    required: true
+  test2_username:
+    description: "The target username for authentication (basicauth) with Swagger."
+    required: true
+  test2_password:
+    description: "The target password for authentication (basicauth) with Swagger."
+    required: true
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
