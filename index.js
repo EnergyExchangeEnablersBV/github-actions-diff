@@ -1,7 +1,35 @@
 const core = require('@actions/core');
+const async = require ('async');
+const { request } = require("@octokit/request");
 
-// most @actions toolkit packages have async methods
-async function run() {
+const github_token = `${process.env.GITHUB_TOKEN}`;
+const collection_organization = `${process.env.INPUT_COLLECTION_ORGANIZATION}`;
+const collection_repository = `${process.env.INPUT_COLLECTION_REPOSITORY}`;
+const collection_path = `${process.env.INPUT_COLLECTION_PATH}`;
+const test1_url = `${process.env.INPUT_TEST1_URL}`;
+const test2_url = `${process.env.INPUT_TEST2_URL}`;
+const test2_username = `${process.env.INPUT_TEST2_USERNAME}`;
+const test2_password = `${process.env.INPUT_TEST2_PASSWORD}`;
+
+async function github_octokit(a, b, c, d) {
+// Following GitHub docs formatting:
+// https://docs.github.com/en/rest/reference/repos#get-repository-content
+    const result = await request("GET /repos/{org}/{repo}/contents/{path}", {
+      headers: {
+        "authorization": "token" + " " + a,
+      },
+      org: b,
+      repo: c,
+      path: d,
+      type: "private"
+    });
+    // console.log(result.data.download_url);
+    return result.data.download_url;
+//    const download_raw_url_tokenized = `${result.data.download_url}`;
+//    console.log(download_raw_url_tokenized);
+}
+
+async function newman() {
   try {
     // Run Newman as a library
     const newman = require('newman');
@@ -9,18 +37,16 @@ async function run() {
     const jsonDiff = require('json-diff');
 
     const resultSet = [];
-    const theCollection = './' + `${process.env.INPUT_COLLECTION}`;
 
     // call newman.run to pass `options` object and wait for callback
     newman.run({
-        collection: require(theCollection),
-        workingDir: './.github/postman',
+        collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path),
         envVar: [
-            { "key":"test1_url", "value":`${process.env.INPUT_TEST1_URL}` },
-            { "key":"test1_bearer_token", "value":`${process.env.GITHUB_TOKEN}` },
-            { "key":"test2_url", "value":`${process.env.INPUT_TEST2_URL}` },
-            { "key":"test2_username", "value":`${process.env.INPUT_TEST2_USERNAME}` },
-            { "key":"test2_password", "value":`${process.env.INPUT_TEST2_PASSWORD}` }
+            { "key":"test1_url", "value":test1_url },
+            { "key":"test1_bearer_token", "value": github_token },
+            { "key":"test2_url", "value":test2_url },
+            { "key":"test2_username", "value":test2_username },
+            { "key":"test2_password", "value":test2_password }
         ],
         reporters: 'cli',
         bail: true
@@ -56,4 +82,5 @@ async function run() {
   }
 }
 
-run();
+// Run newman
+newman();
