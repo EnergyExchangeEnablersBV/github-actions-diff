@@ -1,8 +1,14 @@
 name: 'API-Consistency'
 description: 'Run API Consistency checks'
 inputs:
-  collection:
-    description: "The Postman Collection JSON to run"
+  collection_organization:
+    description: "The Github Organization where the Postman Collection resides."
+    required: true
+  collection_repository:
+    description: "The repository where the Postman Collection resides."
+    required: true
+  collection_path:
+    description: "The path within the repo where the Postman collection JSON resides (from root, including filename)."
     required: true
   test1_url:
     description: "The baseline URL, used as reference definition."
