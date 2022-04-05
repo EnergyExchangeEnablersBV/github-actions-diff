@@ -10,16 +10,16 @@ inputs:
   collection_path:
     description: "The path within the repo where the Postman collection JSON resides (from root, including filename)."
     required: true
-  test1_url:
+  reference_url:
     description: "The baseline URL, used as reference definition."
     required: true
-  test2_url:
+  target_url:
     description: "The target API URL which will be compared with the baseline."
     required: true
-  test2_username:
+  target_username:
     description: "The target username for authentication (basicauth) with Swagger."
     required: true
-  test2_password:
+  target_password:
     description: "The target password for authentication (basicauth) with Swagger."
     required: true
   GITHUB_TOKEN:
