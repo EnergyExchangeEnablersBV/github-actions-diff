@@ -6,17 +6,21 @@ const github_token = `${process.env.GITHUB_TOKEN}`;
 const collection_organization = `${process.env.INPUT_COLLECTION_ORGANIZATION}`;
 const collection_repository = `${process.env.INPUT_COLLECTION_REPOSITORY}`;
 const collection_path = `${process.env.INPUT_COLLECTION_PATH}`;
+const collection_git_ref = `${process.env.INPUT_COLLECTION_GIT_REF}`||'master';
 const reference_url = `${process.env.INPUT_REFERENCE_URL}`;
 const target_url = `${process.env.INPUT_TARGET_URL}`;
 const target_username = `${process.env.INPUT_TARGET_USERNAME}`;
 const target_password = `${process.env.INPUT_TARGET_PASSWORD}`;
 
-async function github_octokit(gh_token, org, repo, path) {
+async function github_octokit(gh_token, org, repo, path, ref) {
     // Following GitHub docs formatting:
     // https://docs.github.com/en/rest/reference/repos#get-repository-content
     const result = await request('GET /repos/{org}/{repo}/contents/{path}', {
       headers: {
         'authorization': 'token' + ' ' + gh_token,
+      },
+      query: {
+        'ref': ref
       },
       org: org,
       repo: repo,
@@ -37,7 +41,7 @@ async function newman() {
 
     // call newman.run to pass `options` object and wait for callback
     newman.run({
-        collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path),
+        collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path, collection_git_ref),
         envVar: [
             { "key":"reference_url", "value":reference_url },
             { "key":"reference_token", "value":github_token },
