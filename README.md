@@ -1,116 +1,51 @@
-# Create a JavaScript Action
+# Newman runner & JSON diff
+![unit-tests](https://github.com/EnergyExchangeEnablersBV/github-actions-diff/actions/workflows/test.yml/badge.svg)
+![check-dist](https://github.com/EnergyExchangeEnablersBV/github-actions-diff/actions/workflows/check-dist.yml/badge.svg)
+## Purpose
+This GitHub Action workflow allows you to;
+* Run a specific Postman Collection in an automated pipeline through newman
+* Load (JSON) data from a `reference_url` including authentication (through Authorization header) with the `GITHUB_TOKEN`.
+* Test the specified `target_url` (JSON) with Basic Auth authentication (user/password).
+* Show a JSON Diff between the `reference_url` and `target_url`.
 
-<p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
-</p>
-
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
-
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.
-
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Main
-
-Install the dependencies
-
-```bash
-npm install
-```
-
-Run the tests :heavy_check_mark:
-
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-...
-```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
+The workflow will fail (exit 1) if the Postman run fails (which is easy to test/verify locally).
+The workflow succeeds if Postman executes successfully, additionally printing the JSON diff (for convenience).
+## How to use
+You can include this workflow through the `uses` keyword in a GitHub Actions workflow:
 
 ```javascript
-const core = require('@actions/core');
-...
-
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
+jobs:
+  API-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Newman
+        uses: EnergyExchangeEnablersBV/github-actions-diff@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          collection_organization: ${{ github.event.inputs.collection_organization }}
+          collection_repository: ${{ github.event.inputs.collection_repository }}
+          collection_path: ${{ github.event.inputs.collection_path }}
+          reference_url: ${{ github.event.inputs.reference_url }}
+          target_url: ${{ github.event.inputs.target_url }}
+          target_username: ${{ github.event.inputs.target_username }}
+          target_password: ${{ github.event.inputs.target_password }}
 ```
 
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Package for distribution
-
-GitHub Actions will run the entry point from the action.yml. Packaging assembles the code into one file that can be checked in to Git, enabling fast and reliable execution and preventing the need to check in node_modules.
-
-Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
-
-Run prepare
-
-```bash
-npm run prepare
+In the above example, most information is provided through `input` on a manual workflow_dispatch job, however you can also directly provide these in code.
+The following environment variables are used internally:
+```shell
+INPUT_COLLECTION_ORGANIZATION   # The GitHub Organization where the Postman Collection resides (e.g. octocat).
+INPUT_COLLECTION_REPOSITORY     # The GitHub Repository where the Postman Collection resides (e.g. myrepo).
+INPUT_COLLECTION_PATH           # The GitHub Path where the Postman Collection resides (e.g. myPostmanCollection.json). 
+INPUT_REFERENCE_URL             # The full reference URL which can be used for testing in Postman & diff, e.g. https://api.github.com/repos/octocat/hello-world/contents/README.md.
+INPUT_TARGET_URL                # Target URL, typically your live application (e.g. https://myapp.mydomain.com/api-docs). 
+INPUT_TARGET_USERNAME           # Target basic auth username.
+INPUT_TARGET_PASSWORD           # Target basic auth password.
+GITHUB_TOKEN                    # Secret used for authentication, to obtain both the Postman Collection and the Reference URL.
 ```
-
-Since the packaged index.js is run from the dist folder.
-
-```bash
-git add dist
-```
-
-## Create a release branch
-
-Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
-
-Checkin to the v1 release branch
-
-```bash
-git checkout -b v1
-git commit -a -m "v1 release"
-```
-
-```bash
-git push origin v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket:
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Usage
-
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
+## Screenshots
+An impression of how this could show up in your workflow:
+![screenshot](./img/screen1.png)
