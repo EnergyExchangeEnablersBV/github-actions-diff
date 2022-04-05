@@ -43,7 +43,7 @@ async function newman() {
         collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path),
         envVar: [
             { "key":"test1_url", "value":test1_url },
-            { "key":"test1_bearer_token", "value": github_token },
+            { "key":"test1_bearer_token", "value":github_token },
             { "key":"test2_url", "value":test2_url },
             { "key":"test2_username", "value":test2_username },
             { "key":"test2_password", "value":test2_password }
