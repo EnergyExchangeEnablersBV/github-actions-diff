@@ -11,6 +11,7 @@ This GitHub Action workflow allows you to;
 The workflow will fail (exit 1) if the Postman run fails (which is easy to test/verify locally).
 The workflow succeeds if Postman executes successfully, additionally printing the JSON diff (for convenience).
 ## How to use
+### GitHub Actions
 You can include this workflow through the `uses` keyword in a GitHub Actions workflow:
 
 ```javascript
@@ -46,6 +47,12 @@ INPUT_TARGET_USERNAME           # Target basic auth username.
 INPUT_TARGET_PASSWORD           # Target basic auth password.
 GITHUB_TOKEN                    # Secret used for authentication, to obtain both the Postman Collection and the Reference URL.
 ```
+### Postman
+In line with the variables listed above, these are the variables you can use in Postman:
+![screenshot_postman_env](./img/screen_postman_env.png)
+
+Note that `reference_token` will be the `GITHUB_TOKEN` in the workflow, however for personal testing it is recommended to use a GitHub PAT (Personal Access Token).
+
 ## Screenshots
 An impression of how this could show up in your workflow:
-![screenshot](./img/screen1.png)
+![screenshot_githubactions](./img/screen1.png)

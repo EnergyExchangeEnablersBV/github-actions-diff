@@ -39,11 +39,11 @@ async function newman() {
     newman.run({
         collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path),
         envVar: [
-            { "key":"test1_url", "value":reference_url },
-            { "key":"test1_bearer_token", "value":github_token },
-            { "key":"test2_url", "value":target_url },
-            { "key":"test2_username", "value":target_username },
-            { "key":"test2_password", "value":target_password }
+            { "key":"reference_url", "value":reference_url },
+            { "key":"reference_token", "value":github_token },
+            { "key":"target_url", "value":target_url },
+            { "key":"target_username", "value":target_username },
+            { "key":"target_password", "value":target_password }
         ],
         reporters: 'cli',
         bail: true
