@@ -13,9 +13,6 @@ inputs:
   collection_git_ref:
     description: "The git ref (branch) where the Postman collection JSON resides. Defaults to 'master'."
     required: false
-  reference_url:
-    description: "The baseline URL, used as reference definition."
-    required: true
   target_url:
     description: "The target API URL which will be compared with the baseline."
     required: true
@@ -23,6 +20,15 @@ inputs:
     description: "The target username for authentication (basicauth) with Swagger."
     required: true
   target_password:
+    description: "The target password for authentication (basicauth) with Swagger."
+    required: true
+  base_url:
+    description: "The base API URL which will be compared with the target."
+    required: true
+  base_username:
+    description: "The target username for authentication (basicauth) with Swagger."
+    required: true
+  base_password:
     description: "The target password for authentication (basicauth) with Swagger."
     required: true
   GITHUB_TOKEN:

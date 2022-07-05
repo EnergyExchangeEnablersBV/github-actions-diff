@@ -7,10 +7,12 @@ const collection_organization = `${process.env.INPUT_COLLECTION_ORGANIZATION}`;
 const collection_repository = `${process.env.INPUT_COLLECTION_REPOSITORY}`;
 const collection_path = `${process.env.INPUT_COLLECTION_PATH}`;
 const collection_git_ref = `${process.env.INPUT_COLLECTION_GIT_REF}`||'master';
-const reference_url = `${process.env.INPUT_REFERENCE_URL}`;
 const target_url = `${process.env.INPUT_TARGET_URL}`;
 const target_username = `${process.env.INPUT_TARGET_USERNAME}`;
 const target_password = `${process.env.INPUT_TARGET_PASSWORD}`;
+const base_url = `${process.env.INPUT_BASE_URL}`;
+const base_username = `${process.env.INPUT_BASE_USERNAME}`;
+const base_password = `${process.env.INPUT_BASE_PASSWORD}`;
 
 async function github_octokit(gh_token, org, repo, path, ref) {
     // Following GitHub docs formatting:
@@ -43,11 +45,13 @@ async function newman() {
     newman.run({
         collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path, collection_git_ref),
         envVar: [
-            { "key":"reference_url", "value":reference_url },
             { "key":"reference_token", "value":github_token },
             { "key":"target_url", "value":target_url },
             { "key":"target_username", "value":target_username },
-            { "key":"target_password", "value":target_password }
+            { "key":"target_password", "value":target_password },
+            { "key":"base_url", "value":base_url },
+            { "key":"base_username", "value":base_username },
+            { "key":"base_password", "value":base_password }
         ],
         reporters: 'cli',
         bail: true

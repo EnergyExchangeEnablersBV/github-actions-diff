@@ -26,14 +26,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          collection_organization: ${{ github.event.inputs.collection_organization }}
-          collection_repository: ${{ github.event.inputs.collection_repository }}
-          collection_path: ${{ github.event.inputs.collection_path }}
-          collection_git_ref: ${{ github.event.inputs.collection_git_ref }}
-          reference_url: ${{ github.event.inputs.reference_url }}
-          target_url: ${{ github.event.inputs.target_url }}
-          target_username: ${{ github.event.inputs.target_username }}
-          target_password: ${{ github.event.inputs.target_password }}
+            collection_organization: ${{ github.event.inputs.collection_organization }}
+            collection_repository: ${{ github.event.inputs.collection_repository }}
+            collection_path: ${{ github.event.inputs.collection_path }}
+            collection_git_ref: ${{ github.event.inputs.collection_git_ref }}
+            target_url: ${{ github.event.inputs.target_url }}
+            target_username: ${{ github.event.inputs.target_username }}
+            target_password: ${{ github.event.inputs.target_password }}
+            base_url: ${{ github.event.inputs.base_url }}
+            base_username: ${{ github.event.inputs.base_username }}
+            base_password: ${{ github.event.inputs.base_password }}
 ```
 
 In the above example, most information is provided through `input` on a manual workflow_dispatch job, however you can also directly provide these in code.
