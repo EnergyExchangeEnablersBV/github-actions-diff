@@ -64,7 +64,6 @@ async function newman() {
     .on('request', (error, data) => {
           if (error) {
               console.log(error);
-              return;
           }
           else {
           // Add each response to the resultSet array, after linting.
