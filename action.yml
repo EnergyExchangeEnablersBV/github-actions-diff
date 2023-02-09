@@ -11,8 +11,8 @@ inputs:
     description: "The path within the repo where the Postman collection JSON resides (from root, including filename)."
     required: true
   collection_git_ref:
-    description: "The git ref (branch) where the Postman collection JSON resides. Defaults to 'master'."
-    required: false
+    description: "The git ref (branch) where the Postman collection JSON resides."
+    required: true
   target_url:
     description: "The target API URL which will be compared with the baseline."
     required: true
