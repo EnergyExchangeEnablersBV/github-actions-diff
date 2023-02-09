@@ -21,13 +21,11 @@ async function github_octokit(gh_token, org, repo, path, ref) {
       headers: {
         'authorization': 'token' + ' ' + gh_token,
       },
-      query: {
-        'ref': ref
-      },
       org: org,
       repo: repo,
       path: path,
-      type: 'private'
+      type: 'private',
+      ref: ref
     });
     return result.data.download_url;
 }
