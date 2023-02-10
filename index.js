@@ -6,7 +6,7 @@ const github_token = `${process.env.GITHUB_TOKEN}`;
 const collection_organization = `${process.env.INPUT_COLLECTION_ORGANIZATION}`;
 const collection_repository = `${process.env.INPUT_COLLECTION_REPOSITORY}`;
 const collection_path = `${process.env.INPUT_COLLECTION_PATH}`;
-const collection_git_ref = `${process.env.INPUT_COLLECTION_GIT_REF}`||'master';
+const collection_git_ref = `${process.env.INPUT_COLLECTION_GIT_REF}`;
 const target_url = `${process.env.INPUT_TARGET_URL}`;
 const target_username = `${process.env.INPUT_TARGET_USERNAME}`;
 const target_password = `${process.env.INPUT_TARGET_PASSWORD}`;
@@ -17,17 +17,33 @@ const base_password = `${process.env.INPUT_BASE_PASSWORD}`;
 async function github_octokit(gh_token, org, repo, path, ref) {
     // Following GitHub docs formatting:
     // https://docs.github.com/en/rest/reference/repos#get-repository-content
-    const result = await request('GET /repos/{org}/{repo}/contents/{path}', {
-      headers: {
-        'authorization': 'token' + ' ' + gh_token,
-      },
-      org: org,
-      repo: repo,
-      path: path,
-      type: 'private',
-      ref: ref
-    });
-    return result.data.download_url;
+    // Call without git ref, uses default branch
+    if (!ref){
+      const result = await request('GET /repos/{org}/{repo}/contents/{path}', {
+        headers: {
+          'authorization': 'token' + ' ' + gh_token,
+        },
+        org: org,
+        repo: repo,
+        path: path,
+        type: 'private'
+      });
+      return result.data.download_url;
+    } 
+    // Call with git ref
+    else {
+      const result = await request('GET /repos/{org}/{repo}/contents/{path}', {
+        headers: {
+          'authorization': 'token' + ' ' + gh_token,
+        },
+        org: org,
+        repo: repo,
+        path: path,
+        type: 'private',
+        ref: ref
+      });
+      return result.data.download_url;
+    }
 }
 
 async function newman() {
