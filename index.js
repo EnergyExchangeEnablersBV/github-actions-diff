@@ -1,5 +1,4 @@
 const core = require('@actions/core');
-const async = require ('async');
 const { request } = require('@octokit/request');
 
 const github_token = `${process.env.GITHUB_TOKEN}`;
@@ -69,7 +68,12 @@ async function newman() {
             { "key":"base_username", "value":base_username },
             { "key":"base_password", "value":base_password }
         ],
-        reporters: 'cli',
+        reporters: ['cli', 'htmlextra'],
+        reporter: {
+          htmlextra: {
+            skipHeaders: "Authorization"
+          }
+        },
         bail: true
     }, function (err, summary) {
        // Custom error handling to ensure run failures will make the GitHub Actions job fail.
