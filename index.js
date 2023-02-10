@@ -28,6 +28,7 @@ async function github_octokit(gh_token, org, repo, path, ref) {
         path: path,
         type: 'private'
       });
+      console.log('Collection URL: %s', result.data.html_url)
       return result.data.download_url;
     } 
     // Call with git ref
@@ -42,6 +43,7 @@ async function github_octokit(gh_token, org, repo, path, ref) {
         type: 'private',
         ref: ref
       });
+      console.log('Collection URL: %s', result.data.html_url)
       return result.data.download_url;
     }
 }
