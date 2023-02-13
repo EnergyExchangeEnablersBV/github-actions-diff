@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const { request } = require('@octokit/request');
+const newman = require('newman');
 
 const github_token = `${process.env.GITHUB_TOKEN}`;
 const collection_organization = `${process.env.INPUT_COLLECTION_ORGANIZATION}`;
@@ -47,15 +48,9 @@ async function github_octokit(gh_token, org, repo, path, ref) {
     }
 }
 
-async function newman() {
+async function mynewman() {
   try {
     // Run Newman as a library
-    const newman = require('newman');
-    const jsonlint = require('jsonlint');
-    const jsonDiff = require('json-diff');
-
-    const resultSet = [];
-
     // call newman.run to pass `options` object and wait for callback
     newman.run({
         collection: await github_octokit(github_token, collection_organization, collection_repository, collection_path, collection_git_ref),
@@ -80,26 +75,21 @@ async function newman() {
        if (err || summary.run.error || summary.run.failures.length) {
          process.exit(1);
        }
-    })
-    .on('request', (error, data) => {
-          if (error) {
-              console.log(error);
-          }
-          else {
-          // Add each response to the resultSet array, after linting.
-          resultSet.push(jsonlint.parse((data.response.stream.toString())));
-          }
-    })
-    .on('done', (error) => {
-          if (error) {
-              console.log(error);
-              return;
-          }
-          // After both requests, diff them.
-          console.log('\n*** Printing the diff without test exclusions ***\n');
-          const fullDiff = jsonDiff.diffString( resultSet[0], resultSet[1] );
-          console.log(fullDiff);
-          console.log('*** End of diff ***');
+      })
+      .on('request', (error) => {
+            if (error) {
+                console.log(error);
+            }
+            else {
+            console.log('\n*** Starting Newman request ***\n');
+            }
+      })
+      .on('done', (error) => {
+            if (error) {
+                console.log(error);
+                return;
+            }
+            console.log('\n*** Newman ran successfully, see report ***\n');
     });
   } catch (error) {
     core.setFailed(error.message);
@@ -107,4 +97,4 @@ async function newman() {
 }
 
 // Run newman
-newman();
+mynewman();
