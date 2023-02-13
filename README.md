@@ -1,6 +1,5 @@
 # Newman runner & JSON diff
 ![unit-tests](https://github.com/EnergyExchangeEnablersBV/github-actions-diff/actions/workflows/test.yml/badge.svg)
-![check-dist](https://github.com/EnergyExchangeEnablersBV/github-actions-diff/actions/workflows/check-dist.yml/badge.svg)
 ## Purpose
 This GitHub Action workflow allows you to;
 * Run a specific Postman Collection in an automated pipeline through newman. Can use authentication through a GITHUB_TOKEN when getting the collection.
