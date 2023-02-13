@@ -45,8 +45,8 @@ INPUT_COLLECTION_PATH           # The GitHub Path where the Postman Collection r
 INPUT_COLLECTION_GIT_REF        # The git ref (branch) where the Postman collection JSON resides (defaults to 'master').
 INPUT_REFERENCE_URL             # The full reference URL which can be used for testing in Postman & diff, e.g. https://api.github.com/repos/octocat/hello-world/contents/README.md.
 INPUT_BASE_URL                  # Base URL, typically your stable live application (e.g. https://myprdapp.mydomain.com/api-docs). 
-INPUT_BASE_USERNAME           # Base basic auth username.
-INPUT_BASE_PASSWORD           # Base basic auth password.
+INPUT_BASE_USERNAME             # Base basic auth username.
+INPUT_BASE_PASSWORD             # Base basic auth password.
 INPUT_TARGET_URL                # Target URL, typically your live tested application (e.g. https://myapp.mydomain.com/api-docs). 
 INPUT_TARGET_USERNAME           # Target basic auth username.
 INPUT_TARGET_PASSWORD           # Target basic auth password.
