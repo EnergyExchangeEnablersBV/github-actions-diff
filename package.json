@@ -24,15 +24,13 @@
   },
   "homepage": "https://github.com/actions/javascript-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.5",
-    "@octokit/request": "^6.2.0",
-    "async": "^3.2.3"
+    "@actions/core": "^1.10.0",
+    "@octokit/request": "^6.2.3"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.34.0",
-    "eslint": "^8.11.0",
-    "json-diff": "^0.9.0",
-    "jsonlint": "^1.6.3",
-    "newman": "^5.3.2"
+    "@vercel/ncc": "^0.36.1",
+    "eslint": "^8.34.0",
+    "newman": "^5.3.2",
+    "newman-reporter-htmlextra": "^1.22.11"
   }
 }

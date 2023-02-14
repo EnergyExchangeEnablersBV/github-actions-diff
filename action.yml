@@ -11,11 +11,8 @@ inputs:
     description: "The path within the repo where the Postman collection JSON resides (from root, including filename)."
     required: true
   collection_git_ref:
-    description: "The git ref (branch) where the Postman collection JSON resides. Defaults to 'master'."
+    description: "Optional git ref (branch) where the Postman collection JSON resides. Defaults to the default branch of the repo."
     required: false
-  reference_url:
-    description: "The baseline URL, used as reference definition."
-    required: true
   target_url:
     description: "The target API URL which will be compared with the baseline."
     required: true
@@ -25,9 +22,18 @@ inputs:
   target_password:
     description: "The target password for authentication (basicauth) with Swagger."
     required: true
+  base_url:
+    description: "The base API URL which will be compared with the target."
+    required: true
+  base_username:
+    description: "The target username for authentication (basicauth) with Swagger."
+    required: true
+  base_password:
+    description: "The target password for authentication (basicauth) with Swagger."
+    required: true
   GITHUB_TOKEN:
     description: "The GITHUB_TOKEN, for observability as it is always implicitly available to the action."
     required: false
 runs:
   using: 'node16'
-  main: 'dist/index.js'
+  main: 'index.js'
